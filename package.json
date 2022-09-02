@@ -6,16 +6,15 @@
   "scripts": {
     "start": "electron .",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "make:win": "electron-forge make --arch=x64 --platform=win32 -d"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.65",
     "@electron-forge/maker-deb": "^6.0.0-beta.65",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.65",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.65",
-    "@electron-forge/maker-zip": "^6.0.0-beta.65",
     "electron": "^20.1.0"
   },
   "dependencies": {
@@ -36,15 +35,22 @@
             "name": "bestmusicplayer"
           }
         },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
+
         {
           "name": "@electron-forge/maker-deb",
           "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "platforms": [
+            "win32"
+          ],
+          "config": {
+            "authors": "miki",
+            "iconUrl": "https://www.electronjs.org//images/favicon.b7a59262df48d6563400baf5671da548.ico",
+            "exe": "electronapp.exe",
+            "name": "electronapp"
+          }
         }
       ]
     }
