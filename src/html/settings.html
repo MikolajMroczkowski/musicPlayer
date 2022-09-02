@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ustawienia</title>
+    <link rel="stylesheet" href="../css/settings.css">
+</head>
+<body>
+<div>
+    <h2>Autoodtwarzanie</h2>
+    <label>Zezwalaj na odtwarzanie po uruchomieniu
+        <input type="checkbox">
+    </label>
+</div>
+<div>
+    <h2>Lista</h2>
+    <input placeholder="location"><button onclick="selectDir()">Wybierz</button>
+</div>
+<div>
+    <h2>Nazwy na liście</h2>
+    <label>Używaj nazw dowiązań
+        <input type="checkbox">
+    </label>
+</div>
+<div>
+    <h2>Dowiązania</h2>
+    <p>Przy pobieraniu automatycznie proś o dowiązanie</p>
+    <select>
+        <option>Tak</option>
+        <option>Pytaj</option>
+        <option>Nie</option>
+    </select>
+</div>
+<div class="controls">
+    <button>Resetuj</button>
+    <button>Zapisz</button>
+</div>
+</body>
+<script src="../js/settings.js"></script>
+</html>

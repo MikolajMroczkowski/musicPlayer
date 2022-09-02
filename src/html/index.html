@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no">
+    <title>Muzyka</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<main>
+    <div class="lyricsBox" id="lyricsBox">
+
+    </div>
+    <div class="listBox" id="list">
+
+    </div>
+</main>
+<div class="nav">
+    <audio id="audio">
+
+    </audio>
+    <button onclick="previous()" >Previous</button>
+    <button onclick="pause()" id="pause">Pause</button>
+    <button onclick="next()">Next</button>
+    <div class="pustak">
+
+            <label>
+                Losowa
+                <input type="checkbox" id="randomize">
+            </label>
+            <label>
+                Powtarzaj
+                <input type="checkbox" id="repeat">
+            </label>
+        <button id="lyricsBtn" onclick="toggleLyrics()">Pokaż tekst</button>
+
+    </div>
+    <div class="controls">
+        <div class="row">
+            <h3 id="np"></h3>
+        </div>
+        <div class="row">
+            <p id="currentTime">0:00</p>
+            <input type="range" class="mainAudio" id="mainAudio" min="0" max="1000" value="0">
+            <p id="duration">0:00</p>
+        </div>
+        <div class="row">
+            <p>Volume <span id="volumeVal">100</span>%</p>
+            <input type="range" class="mainAudio" id="volume" min="0" max="100" value="100">
+            <p>Speed <span id="speedVal">1</span>x</p>
+            <input type="range" class="mainAudio" id="speed" min="20" max="180" value="100">
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="../js/lyrics.js"></script>
+<script src="../js/player.js"></script>
+</html>

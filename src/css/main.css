@@ -1,0 +1,119 @@
+
+html {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+}
+.np{
+    font-weight: bold;
+    margin: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.6);
+}
+.listBox {
+    overflow: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+.lyricsBox{
+    height: 100%;
+    overflow: auto;
+    overflow-x: hidden;
+    background: rgba(255,255,255,0.3);
+    display: none;
+    padding: 4px;
+}
+main {
+    overflow: hidden;
+}
+.el:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.el:hover {
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+
+.el {
+    cursor: pointer;
+    margin: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+
+.nav {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: flex-end;
+}
+.nav div{
+    display: flex;
+    flex-direction: column;
+}
+.nav div .row{
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.nav p{
+    display: inline;
+    width: max-content;
+}
+input[type=range]{
+    flex-grow: 1;
+}
+button{
+    all:unset;
+    height: 100%;
+    width: 10%;
+    min-width: max-content;
+    margin: 2px;
+    text-align: center;
+    font-size: 20px;
+    background: rgba(255,255,255,0.4);
+}
+.pustak{
+    height: 100%;
+    width: 8%;
+}
+.controls{
+    width: 60%;
+}
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background: #bb71f3;
+    background: -moz-linear-gradient(-45deg, #bb71f3 0%, #3d4d91 100%);
+    background: -webkit-linear-gradient(-45deg, #bb71f3 0%, #3d4d91 100%);
+    background: linear-gradient(135deg, #bb71f3 0%, #3d4d91 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bb71f3', endColorstr='#3d4d91', GradientType=1);
+    font-family: "Helvetica Neue", "Futura", "Trebuchet MS", Arial;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    display: flex;
+    flex-direction: column;
+}
+h3{
+    width: 100%;
+    text-align: right;
+}
+.pustak button{
+    height: min-content;
+    width: min-content;
+    padding: 2px;
+    font-size: 15px;
+}

@@ -1,0 +1,64 @@
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    background: #bb71f3;
+    background: -moz-linear-gradient(-45deg, #bb71f3 0%, #3d4d91 100%);
+    background: -webkit-linear-gradient(-45deg, #bb71f3 0%, #3d4d91 100%);
+    background: linear-gradient(135deg, #bb71f3 0%, #3d4d91 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bb71f3', endColorstr='#3d4d91', GradientType=1);
+    font-family: "Helvetica Neue", "Futura", "Trebuchet MS", Arial;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    display: flex;
+    flex-direction: column;
+}
+
+.navBar {
+    padding: 10px;
+    text-align: center;
+}
+html{
+    height: 100%;
+}
+#query {
+    width: 90%;
+}
+
+.list {
+    padding: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+    flex-grow: 1;
+}
+
+.el:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.el:hover {
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+
+.el {
+    cursor: pointer;
+    margin: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+}
+p{
+    display: inline;
+}
+h2{
+    display: inline;
+}
+img{
+}
