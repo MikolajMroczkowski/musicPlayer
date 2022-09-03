@@ -7,9 +7,9 @@
     "start": "electron .",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "make:win": "electron-forge make --arch=x64 --platform=win32 -d"
+    "make:win": "electron-forge make --platform=win32 --asar=true"
   },
-  "author": "",
+  "author": "miki",
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.65",
@@ -48,8 +48,8 @@
           "config": {
             "authors": "miki",
             "iconUrl": "https://www.electronjs.org//images/favicon.b7a59262df48d6563400baf5671da548.ico",
-            "exe": "electronapp.exe",
-            "name": "electronapp"
+            "exe": "bestmusicplayer.exe",
+            "name": "bestmusicplayer"
           }
         }
       ]

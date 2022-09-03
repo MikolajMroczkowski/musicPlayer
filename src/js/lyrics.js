@@ -1,10 +1,11 @@
 var cache = "";
-const LyricsFinder = require("../lyrics")
 const path = require("path");
+const sqlite3 = require('sqlite3').verbose();
+const LyricsFinder = require("../lyrics")
 var settingsLib = require('../settings');
 var settings = new settingsLib()
 const lyricsFinder = new LyricsFinder;
-const sqlite3 = require('sqlite3').verbose();
+
 
 function init() {
     const db = new sqlite3.Database(path.join(settings.location, 'lyrics.db'));

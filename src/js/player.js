@@ -47,6 +47,10 @@ function reload() {
             var el = document.getElementById("el" + playing)
             el.classList.add("np")
             el.classList.remove("el")
+            // settings.getObject().referenceNames
+            if(true){
+                dbName(0)
+            }
         }
 
     })
@@ -77,6 +81,11 @@ fs.readdir(listPath, function (err, fn) {
         element.appendChild(tag);
         return
     }
+    else{
+        if(true){
+            dbName(0)
+        }
+    }
     randomized = list
         .map(value => ({ value, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
@@ -101,6 +110,27 @@ fs.readdir(listPath, function (err, fn) {
     }
 
 })
+function dbName(id) {
+    console.log(id)
+    var element = document.getElementById("el"+id)
+    console.log(element.innerHTML,id < list.length,id,list.length)
+    if(id < list.length-2){
+        const db = new sqlite3.Database(path.join(settings.location, 'lyrics.db'));
+        db.serialize(() => {
+            db.each("SELECT null as control, (SELECT title FROM list WHERE path='" + listPath + "' AND name = '" +element.innerHTML+ "') as title, (SELECT author FROM list WHERE path='" + listPath + "' AND name = '" +element.innerHTML+ "') as author", (err, row) => {
+                if(row!==undefined) {
+                    if(row.title!==null) {
+                        element.innerHTML = row.author + " - " + row.title
+                    }
+                }
+                dbName(id+1)
+            });
+        });
+        db.close();
+    }
+
+}
+
 a.onended = function () {
     if (!document.getElementById("repeat").checked) {
         next()
@@ -123,6 +153,19 @@ function play(id) {
     el.classList.add("np")
     el.classList.remove("el")
     document.getElementById("np").innerHTML=listi[np].replace(".mp3","")
+    if(true){
+        const db = new sqlite3.Database(path.join(settings.location, 'lyrics.db'));
+        db.serialize(() => {
+            db.each("SELECT null as control, (SELECT title FROM list WHERE path='" + listPath + "' AND name = '" +listi[np]+ "') as title, (SELECT author FROM list WHERE path='" + listPath + "' AND name = '" +listi[np]+ "') as author", (err, row) => {
+                if(row!==undefined) {
+                    if(row.title!==null) {
+                        document.getElementById("np").innerHTML = row.author + " - " + row.title
+                    }
+                }
+            });
+        });
+        db.close();
+    }
     document.getElementById("duration").innerHTML = secondsToMinSec(parseInt(a.duration))
     settings.lastPlay(list.indexOf(listi[np]))
     reFetchLyrics()
@@ -183,7 +226,7 @@ document.getElementById("speed").onchange = function (ev) {
     settings.setSpeed(pbr)
 }
 function speed(val){
-    a.playbackRate=a.playbackRate+val
+    a.playbackRate=val
     document.getElementById("speed").value = a.playbackRate*100
     pbr = a.playbackRate
     document.getElementById("speedVal").innerHTML = a.playbackRate
@@ -249,8 +292,8 @@ function barRefresh(title, author) {
         navigator.mediaSession.setActionHandler('play', function() { pause() });
         navigator.mediaSession.setActionHandler('pause', function() { pause() });
         navigator.mediaSession.setActionHandler('stop', function() { /* Code excerpted. */ });
-        navigator.mediaSession.setActionHandler('seekbackward', function() { speed(-0.1) });
-        navigator.mediaSession.setActionHandler('seekforward', function() { speed(0.1) });
+        navigator.mediaSession.setActionHandler('seekbackward', function() { speed(pbr-0.1) });
+        navigator.mediaSession.setActionHandler('seekforward', function() { speed(pbr+0.1) });
         navigator.mediaSession.setActionHandler('seekto', function() { /* Code excerpted. */ });
         navigator.mediaSession.setActionHandler('previoustrack', function() { previous() });
         navigator.mediaSession.setActionHandler('nexttrack', function() { next() });

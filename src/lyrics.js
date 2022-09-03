@@ -18,11 +18,10 @@ class LyricsFinder {
     }
     findA(title, author, callback){
         (async function (artist, title) {
-            let lyrics = await lyricsFinder(artist, title) || "err";
-            if ("err" === lyrics) {
-                callback(false)
+            let lyrics = await lyricsFinder(artist, title) || false;
+            if(lyrics!==false) {
+                lyrics = lyrics.split('\n')
             }
-            lyrics = lyrics.split('\n')
             callback(lyrics)
 
         })(author, title);
