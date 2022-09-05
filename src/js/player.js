@@ -98,15 +98,15 @@ fs.readdir(listPath, function (err, fn) {
     document.getElementById("repeat").checked=settings.getObject().repeat
     document.getElementById("volumeVal").innerHTML = a.volume * 100
     document.getElementById("speedVal").innerHTML = pbr
-    if(autoplay){
-        if(settings.getObject().lastPlay<list.length){
-            play(settings.getObject().lastPlay)
+    if(settings.getObject().lastPlay<list.length){
+        play(settings.getObject().lastPlay)
+        if(!autoplay){
+            pause()
         }
-        else{
-            var willPlay = getRandomInt(0, list.length)
-            play(willPlay)
-        }
-
+    }
+    else{
+        var willPlay = getRandomInt(0, list.length)
+        play(willPlay)
     }
 
 })

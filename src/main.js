@@ -4,7 +4,6 @@ const settingsLib = require('./settings')
 var reg = false;
 var settings = new settingsLib()
 const createWindow = (file, hide) => {
-    // Create the browser window.
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
@@ -16,7 +15,7 @@ const createWindow = (file, hide) => {
         }
     })
     mainWindow.loadFile(file)
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
     if (!reg) {
         reg = true
         ipcMain.handle('openDialog', async (event, arg) => {
@@ -25,25 +24,20 @@ const createWindow = (file, hide) => {
         ipcMain.on('userData', (event, arg) => {
             event.returnValue = app.getPath("userData")
         })
+        ipcMain.on('music', (event, arg) => {
+            event.returnValue = app.getPath("music")
+        })
     }
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
     createWindow('src/html/index.html', false)
 
     app.on('activate', () => {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
@@ -79,15 +73,34 @@ const template = [
                 click: (item, focusedWindow) => {
                     createWindow('src/html/addSong.html', true)
                 }
-            },
-            {
-                label: "Zarządzaj dowiązaniami",
-                click: (item, focusedWindow) => {
-                    createWindow('src/html/reference.html', true)
-                }
-            },
+            }
         ]
     }, {
+        label: "Dowiązania",
+        submenu: [{
+            label: "Zarządzaj dowiązaniami",
+            click: (item, focusedWindow) => {
+                createWindow('src/html/reference.html', true)
+            }
+        }, {
+            label: "Eksportuj",
+            click: (item, focusedWindow) => {
+                createWindow('src/html/exportReference.html', true)
+            }
+        }, {
+            label: "Importuj",
+            click: (item, focusedWindow) => {
+                createWindow('src/html/importReference.html', true)
+            }
+        },
+            {
+                label: "Pprzenieś",
+                click: (item, focusedWindow) => {
+                    createWindow('src/html/moveList.html', true)
+                }
+            }]
+    },
+    {
         label: "Ustawienia",
         submenu: [{
             label: "uruchom ustawienia",

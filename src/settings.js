@@ -1,25 +1,30 @@
 const fs = require('fs');
 const path = require("path");
-const {ipcRenderer,app} = require('electron')
+const {ipcRenderer, app} = require('electron')
 
 
 class Settings {
     location = ""
+
     constructor() {
-        if(process && process.type === 'renderer'){
+        if (process && process.type === 'renderer') {
             this.location = ipcRenderer.sendSync('userData')
-        }
-        else {
-            this.location=app.getPath('userData')
+        } else {
+            this.location = app.getPath('userData')
         }
         this.checkFile()
     }
 
     checkFile() {
+        var music = ""
         if (!fs.existsSync(path.join(this.location, "settings.json"))) {
+            if (process && process.type === 'renderer') {
+                music = ipcRenderer.sendSync('music')
+            } else {
+                music = app.getPath('music')
+            }
 
-
-            let data = '{"list":"' + path.join("music/") + '","autoplay":false,"volume":100,"speed":1,"lastPlay":0,"autoReference":"yes","referenceNames":false}'
+            let data = '{"list":"' + path.join(music,"/") + '","autoplay":false,"volume":100,"speed":1,"lastPlay":0,"autoReference":"yes","referenceNames":false}'
 
             fs.writeFileSync(path.join(this.location, "settings.json"), data);
         }
