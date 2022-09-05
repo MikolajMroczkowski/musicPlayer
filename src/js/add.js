@@ -1,14 +1,17 @@
+const sqlite3 = require('sqlite3').verbose();
+var settingsLib = require('../settings');
+var settings = new settingsLib()
+const fs = require('fs');
+const ytdl = require('ytdl-core');
+
 const yts = require('yt-search')
 const {ipcRenderer} = require('electron')
-const ytdl = require("youtube-dl.js");
-var settingsLib = require('../settings');
-const fs = require("fs");
-var settings = new settingsLib()
+const path = require("path");
 async function search() {
+
     var el = document.getElementById("list")
     el.innerHTML = ""
     const r = await yts(document.getElementById("query").value)
-
     const videos = r.videos.slice(0, 10)
     videos.forEach(function (v) {
         var tag = document.createElement("div")
@@ -27,28 +30,63 @@ async function search() {
             download(this)
         }
         tag.classList.add("el")
+
         el.appendChild(tag)
+
     })
 }
-
+var file = ""
 function download(o) {
-    o.style.background="rgba(0,0,128,0.4)"
+    o.style.background = "rgba(0,0,128,0.4)"
     var r = o.id.split("{[{]")
-    document.getElementById(r[1]).innerHTML="Pobieranie...";
-    console.log(r[0])
-    const fs = require('fs');
-    const ytdl = require('ytdl-core');
+    document.getElementById(r[1]).innerHTML = "Pobieranie...";
     var url = r[0]
     var id = ytdl.getURLVideoID(url)
     ytdl.getInfo(id).then(function (value) {
-        var stream = ytdl(url,{ filter: 'audioonly', format:"mp3" })
-            .pipe(fs.createWriteStream(settings.getObject().list+"/"+value.videoDetails.title+'.mp3'));
-        stream.on('finish',()=>{
-            document.getElementById(r[1]).innerHTML="Pobrano";
-            o.style.background="rgba(0,255,0,0.4)"
+        file = value.videoDetails.title + '.mp3'
+
+        var stream = ytdl(url, {filter: 'audioonly', format: "mp3"})
+            .pipe(fs.createWriteStream(settings.getObject().list + "/" + value.videoDetails.title + '.mp3'));
+        stream.on('finish', () => {
+            document.getElementById(r[1]).innerHTML = "Pobrano";
+            o.style.background = "rgba(0,255,0,0.4)"
+
+            var ref = settings.getObject().autoReference
+            console.log(ref)
+            if (ref === "ask") {
+                var answer = window.confirm("Czy chcesz utworzyć dowiązanie?");
+                if (answer) {
+                    reference()
+                }
+            }
+            if (ref === "yes") {
+                reference()
+            }
         })
+        stream.on('error', () => {
+            document.getElementById(r[1]).innerHTML = "Błąd";
+            o.style.background = "rgba(255,0,0,0.4)"
+        })
+
+
     });
 
+}
+function reference() {
 
+    document.getElementById("modal").style.display = "flex"
 
+}
+function save() {
+    var title = document.getElementById('title').value
+    var author = document.getElementById('author').value
+    const db = new sqlite3.Database(path.join(settings.location, 'lyrics.db'));
+    db.serialize(() => {
+        const insert = db.prepare("INSERT INTO list (path,name,title,author) VALUES ('"+settings.getObject().list+"',?,?,?)");
+        insert.run(file,title,author)
+        insert.finalize();
+    })
+    db.close()
+    document.getElementById('modal').style.display = 'none'
+    alert("dodano")
 }

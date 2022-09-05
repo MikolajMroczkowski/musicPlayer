@@ -6,6 +6,14 @@
     <link rel="stylesheet" href="../css/add.css">
 </head>
 <body>
+<div class="modal" id="modal">
+    <div class="modalBody">
+        <input placeholder="tytuł" id="title"><br>
+        <input placeholder="autor" id="author"><br>
+        <button onclick="document.getElementById('modal').style.display='none'">Anuluj</button>
+        <button onclick="save()">Zapisz</button>
+    </div>
+</div>
 <div class="navBar"><input id="query" placeholder="Wprowadź wyszukiwanie..."><button onclick="search()">Szukaj...</button></div>
 <div id="list" class="list">
 
