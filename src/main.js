@@ -1,7 +1,7 @@
 const {app, BrowserWindow, Menu, dialog, ipcMain} = require('electron')
 const path = require('path')
 const settingsLib = require('./settings')
-
+var reg = false;
 var settings = new settingsLib()
 const createWindow = (file, hide) => {
     // Create the browser window.
@@ -17,12 +17,15 @@ const createWindow = (file, hide) => {
     })
     mainWindow.loadFile(file)
     mainWindow.webContents.openDevTools()
-    ipcMain.on('openDirDialog', async (event, ...args) => {
-        return await dialog.showOpenDialog(mainWindow, {properties: ['openDirectory']})
-    })
-    ipcMain.on('userData', (event, arg) => {
-        event.returnValue = app.getPath("userData")
-    })
+    if (!reg) {
+        reg = true
+        ipcMain.handle('openDialog', async (event, arg) => {
+            return await dialog.showOpenDialog(mainWindow, {properties: ['openDirectory']})
+        })
+        ipcMain.on('userData', (event, arg) => {
+            event.returnValue = app.getPath("userData")
+        })
+    }
 }
 
 // This method will be called when Electron has finished

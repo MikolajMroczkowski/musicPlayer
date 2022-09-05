@@ -5,35 +5,35 @@
     <title>Ustawienia</title>
     <link rel="stylesheet" href="../css/settings.css">
 </head>
-<body>
+<body onload="init()">
 <div>
     <h2>Autoodtwarzanie</h2>
     <label>Zezwalaj na odtwarzanie po uruchomieniu
-        <input type="checkbox">
+        <input type="checkbox" id="autoPlay">
     </label>
 </div>
 <div>
     <h2>Lista</h2>
-    <input placeholder="location"><button onclick="selectDir()">Wybierz</button>
+    <input placeholder="location" id="location"><button onclick="selectDir()">Wybierz</button>
 </div>
 <div>
     <h2>Nazwy na liście</h2>
     <label>Używaj nazw dowiązań
-        <input type="checkbox">
+        <input type="checkbox" id="referenceNames">
     </label>
 </div>
 <div>
     <h2>Dowiązania</h2>
     <p>Przy pobieraniu automatycznie proś o dowiązanie</p>
-    <select>
-        <option>Tak</option>
-        <option>Pytaj</option>
-        <option>Nie</option>
+    <select id="autoReference">
+        <option value="yes">Tak</option>
+        <option value="ask">Pytaj</option>
+        <option value="no">Nie</option>
     </select>
 </div>
 <div class="controls">
-    <button>Resetuj</button>
-    <button>Zapisz</button>
+    <button onclick="init()">Resetuj</button>
+    <button onclick="save()">Zapisz</button>
 </div>
 </body>
 <script src="../js/settings.js"></script>

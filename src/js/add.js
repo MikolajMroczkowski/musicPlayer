@@ -2,6 +2,7 @@ const yts = require('yt-search')
 const {ipcRenderer} = require('electron')
 const ytdl = require("youtube-dl.js");
 var settingsLib = require('../settings');
+const fs = require("fs");
 var settings = new settingsLib()
 async function search() {
     var el = document.getElementById("list")
@@ -35,18 +36,19 @@ function download(o) {
     var r = o.id.split("{[{]")
     document.getElementById(r[1]).innerHTML="Pobieranie...";
     console.log(r[0])
-
-    let url = r[0],
-        filename = settings.getObject().list+`${r[1]}.%(ext)s`,
-        args = ["-o", filename, "-x", "--audio-format=mp3", "--restrict-filenames", "--external-downloader=ffmpeg", "--audio-quality=96k"];
-
-    ytdl(url, args)
-        .then(data => {
+    const fs = require('fs');
+    const ytdl = require('ytdl-core');
+    var url = r[0]
+    var id = ytdl.getURLVideoID(url)
+    ytdl.getInfo(id).then(function (value) {
+        var stream = ytdl(url,{ filter: 'audioonly', format:"mp3" })
+            .pipe(fs.createWriteStream(settings.getObject().list+"/"+value.videoDetails.title+'.mp3'));
+        stream.on('finish',()=>{
             document.getElementById(r[1]).innerHTML="Pobrano";
             o.style.background="rgba(0,255,0,0.4)"
         })
-        .catch(err => {
-            document.getElementById(r[1]).innerHTML="error";
-            o.style.background="rgba(255,0,0,0.4)"
-        });
+    });
+
+
+
 }

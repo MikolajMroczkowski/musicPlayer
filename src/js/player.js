@@ -48,7 +48,7 @@ function reload() {
             el.classList.add("np")
             el.classList.remove("el")
             // settings.getObject().referenceNames
-            if(true){
+            if(settings.getObject().referenceNames){
                 dbName(0)
             }
         }
@@ -82,7 +82,7 @@ fs.readdir(listPath, function (err, fn) {
         return
     }
     else{
-        if(true){
+        if(settings.getObject().referenceNames){
             dbName(0)
         }
     }
@@ -153,7 +153,7 @@ function play(id) {
     el.classList.add("np")
     el.classList.remove("el")
     document.getElementById("np").innerHTML=listi[np].replace(".mp3","")
-    if(true){
+    if(settings.getObject().referenceNames){
         const db = new sqlite3.Database(path.join(settings.location, 'lyrics.db'));
         db.serialize(() => {
             db.each("SELECT null as control, (SELECT title FROM list WHERE path='" + listPath + "' AND name = '" +listi[np]+ "') as title, (SELECT author FROM list WHERE path='" + listPath + "' AND name = '" +listi[np]+ "') as author", (err, row) => {

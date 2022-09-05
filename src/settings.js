@@ -19,7 +19,7 @@ class Settings {
         if (!fs.existsSync(path.join(this.location, "settings.json"))) {
 
 
-            let data = '{"list":"' + path.join("music/") + '","autoplay":false,"volume":100,"speed":1,"lastPlay":0,"reference":"yes","referenceNames":false}'
+            let data = '{"list":"' + path.join("music/") + '","autoplay":false,"volume":100,"speed":1,"lastPlay":0,"autoReference":"yes","referenceNames":false}'
 
             fs.writeFileSync(path.join(this.location, "settings.json"), data);
         }
