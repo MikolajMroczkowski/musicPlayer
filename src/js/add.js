@@ -7,6 +7,11 @@ const ytdl = require('ytdl-core');
 const yts = require('yt-search')
 const {ipcRenderer} = require('electron')
 const path = require("path");
+document.getElementById("query").addEventListener('keypress',function (ev) {
+    if(ev.key==='Enter'){
+        search()
+    }
+})
 async function search() {
 
     var el = document.getElementById("list")
