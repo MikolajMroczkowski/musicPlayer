@@ -9,10 +9,11 @@ pbr = 1
 np = 0;
 var randomized = []
 var list = []
-if(listPath===undefined){
-    listPath="./music/";
+if (listPath === undefined) {
+    listPath = "./music/";
 }
-setInterval(reload,5000)
+setInterval(reload, 5000)
+
 function reload() {
     fs.readdir(listPath, function (err, fn) {
         var tempList = []
@@ -22,17 +23,17 @@ function reload() {
 
             }
         }
-        if(diffArray(tempList,list).length>0){
+        if (diffArray(tempList, list).length > 0) {
             console.log("Reloading...")
             randomized = tempList
-                .map(value => ({ value, sort: Math.random() }))
+                .map(value => ({value, sort: Math.random()}))
                 .sort((a, b) => a.sort - b.sort)
-                .map(({ value }) => value)
+                .map(({value}) => value)
             var listi = document.getElementById("randomize").checked ? randomized : list
             var playing = tempList.indexOf(listi[np])
             var element = document.getElementById("list");
-            element.innerHTML=""
-            list=tempList
+            element.innerHTML = ""
+            list = tempList
             for (let i = 0; i < tempList.length; i++) {
                 var tag = document.createElement("p");
                 tag.innerHTML = tempList[i]
@@ -48,7 +49,7 @@ function reload() {
             el.classList.add("np")
             el.classList.remove("el")
             // settings.getObject().referenceNames
-            if(settings.getObject().referenceNames){
+            if (settings.getObject().referenceNames) {
                 dbName(0)
             }
         }
@@ -74,56 +75,55 @@ fs.readdir(listPath, function (err, fn) {
 
         }
     }
-    if(list.length===0){
+    if (list.length === 0) {
         var tag = document.createElement("h1");
         tag.innerHTML = "Lista jest pusta";
         var element = document.getElementById("list");
         element.appendChild(tag);
         return
-    }
-    else{
-        if(settings.getObject().referenceNames){
+    } else {
+        if (settings.getObject().referenceNames) {
             dbName(0)
         }
     }
     randomized = list
-        .map(value => ({ value, sort: Math.random() }))
+        .map(value => ({value, sort: Math.random()}))
         .sort((a, b) => a.sort - b.sort)
-        .map(({ value }) => value)
-    a.volume=settings.getObject().volume/100
-    pbr=settings.getObject().speed
-    document.getElementById("volume").value=settings.getObject().volume
-    document.getElementById("speed").value=settings.getObject().speed*100
-    document.getElementById("randomize").checked=settings.getObject().randomize
-    document.getElementById("repeat").checked=settings.getObject().repeat
+        .map(({value}) => value)
+    a.volume = settings.getObject().volume / 100
+    pbr = settings.getObject().speed
+    document.getElementById("volume").value = settings.getObject().volume
+    document.getElementById("speed").value = settings.getObject().speed * 100
+    document.getElementById("randomize").checked = settings.getObject().randomize
+    document.getElementById("repeat").checked = settings.getObject().repeat
     document.getElementById("volumeVal").innerHTML = a.volume * 100
     document.getElementById("speedVal").innerHTML = pbr
-    if(settings.getObject().lastPlay<list.length){
+    if (settings.getObject().lastPlay < list.length) {
         play(settings.getObject().lastPlay)
-        if(!autoplay){
+        if (!autoplay) {
             pause()
         }
-    }
-    else{
+    } else {
         var willPlay = getRandomInt(0, list.length)
         play(willPlay)
     }
 
 })
+
 function dbName(id) {
     console.log(id)
-    var element = document.getElementById("el"+id)
-    console.log(element.innerHTML,id < list.length,id,list.length)
-    if(id < list.length-2){
+    var element = document.getElementById("el" + id)
+    console.log(element.innerHTML, id < list.length, id, list.length)
+    if (id < list.length - 2) {
         const db = new sqlite3.Database(path.join(settings.location, 'lyrics.db'));
         db.serialize(() => {
-            db.each("SELECT null as control, (SELECT title FROM list WHERE path='" + listPath + "' AND name = '" +element.innerHTML+ "') as title, (SELECT author FROM list WHERE path='" + listPath + "' AND name = '" +element.innerHTML+ "') as author", (err, row) => {
-                if(row!==undefined) {
-                    if(row.title!==null) {
+            db.each("SELECT null as control, (SELECT title FROM list WHERE path='" + listPath + "' AND name = '" + element.innerHTML + "') as title, (SELECT author FROM list WHERE path='" + listPath + "' AND name = '" + element.innerHTML + "') as author", (err, row) => {
+                if (row !== undefined) {
+                    if (row.title !== null) {
                         element.innerHTML = row.author + " - " + row.title
                     }
                 }
-                dbName(id+1)
+                dbName(id + 1)
             });
         });
         db.close();
@@ -146,19 +146,19 @@ function play(id) {
         document.getElementById("el" + i).classList.add("el")
     }
     np = parseInt(id);
-    a.src = "file://"+listPath+listi[np]
+    a.src = "file://" + listPath + listi[np]
     a.play()
     a.playbackRate = pbr
     var el = document.getElementById("el" + list.indexOf(listi[id]))
     el.classList.add("np")
     el.classList.remove("el")
-    document.getElementById("np").innerHTML=listi[np].replace(".mp3","")
-    if(settings.getObject().referenceNames){
+    document.getElementById("np").innerHTML = listi[np].replace(".mp3", "")
+    if (settings.getObject().referenceNames) {
         const db = new sqlite3.Database(path.join(settings.location, 'lyrics.db'));
         db.serialize(() => {
-            db.each("SELECT null as control, (SELECT title FROM list WHERE path='" + listPath + "' AND name = '" +listi[np]+ "') as title, (SELECT author FROM list WHERE path='" + listPath + "' AND name = '" +listi[np]+ "') as author", (err, row) => {
-                if(row!==undefined) {
-                    if(row.title!==null) {
+            db.each("SELECT null as control, (SELECT title FROM list WHERE path='" + listPath + "' AND name = '" + listi[np] + "') as title, (SELECT author FROM list WHERE path='" + listPath + "' AND name = '" + listi[np] + "') as author", (err, row) => {
+                if (row !== undefined) {
+                    if (row.title !== null) {
                         document.getElementById("np").innerHTML = row.author + " - " + row.title
                     }
                 }
@@ -169,15 +169,15 @@ function play(id) {
     document.getElementById("duration").innerHTML = secondsToMinSec(parseInt(a.duration))
     settings.lastPlay(list.indexOf(listi[np]))
     reFetchLyrics()
-    barRefresh(listi[np].replace(".mp3",""),"")
+    barRefresh(listi[np].replace(".mp3", ""), "")
 }
 
 function next() {
-        if (list.length === np + 1) {
-            play(0)
-        } else {
-            play(np + 1)
-        }
+    if (list.length === np + 1) {
+        play(0)
+    } else {
+        play(np + 1)
+    }
 
 
 }
@@ -225,31 +225,35 @@ document.getElementById("speed").onchange = function (ev) {
     document.getElementById("speedVal").innerHTML = a.playbackRate
     settings.setSpeed(pbr)
 }
-function speed(val){
-    a.playbackRate=val
-    document.getElementById("speed").value = a.playbackRate*100
+
+function speed(val) {
+    a.playbackRate = val
+    document.getElementById("speed").value = a.playbackRate * 100
     pbr = a.playbackRate
     document.getElementById("speedVal").innerHTML = a.playbackRate
 }
+
 document.getElementById("volume").onchange = function (ev) {
     a.volume = document.getElementById("volume").value / 100
     document.getElementById("volumeVal").innerHTML = a.volume * 100
     settings.setVolume(a.volume * 100)
 }
-document.getElementById("randomize").onchange=function (ev) {
+document.getElementById("randomize").onchange = function (ev) {
     var o = settings.getObject()
     o.randomize = document.getElementById("randomize").checked
     settings.saveObject(o)
     randomized = list
-        .map(value => ({ value, sort: Math.random() }))
+        .map(value => ({value, sort: Math.random()}))
         .sort((a, b) => a.sort - b.sort)
-        .map(({ value }) => value)
+        .map(({value}) => value)
 }
-document.getElementById("repeat").onchange=function (ev) {
+
+document.getElementById("repeat").onchange = function (ev) {
     var o = settings.getObject()
     o.repeat = document.getElementById("repeat").checked
     settings.saveObject(o)
 }
+
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -257,45 +261,56 @@ function getRandomInt(min, max) {
 }
 
 const padTime = n => ("" + n).padStart(2, 0);
-const secondsToMinSec = time =>
-    `${padTime(~~(time / 60))}:${padTime(time - ~~(time / 60) * 60)}`
-;
+const secondsToMinSec = time => `${padTime(~~(time / 60))}:${padTime(time - ~~(time / 60) * 60)}`;
 
 function diffArray(arr1, arr2) {
     const newArr = [];
 
 // arr1 match to arr2
-    arr1.map((item)=>{
-        if(arr2.indexOf(item)<0){
+    arr1.map((item) => {
+        if (arr2.indexOf(item) < 0) {
             console.log(item)
             newArr.push(item)
         }
     })
 
 // arr2 match to arr1
-    arr2.map((item)=>{
-        if(arr1.indexOf(item)<0){
+    arr2.map((item) => {
+        if (arr1.indexOf(item) < 0) {
             newArr.push(item)
         }
     })
 
     return newArr;
 }
+
 function barRefresh(title, author) {
     if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
-            title: title,
-            artist: author,
-            album: 'Prędkość: '+pbr+"x"
+            title: title, artist: author, album: 'Prędkość: ' + pbr + "x"
         });
 
-        navigator.mediaSession.setActionHandler('play', function() { pause() });
-        navigator.mediaSession.setActionHandler('pause', function() { pause() });
-        navigator.mediaSession.setActionHandler('stop', function() { /* Code excerpted. */ });
-        navigator.mediaSession.setActionHandler('seekbackward', function() { speed(pbr-0.1) });
-        navigator.mediaSession.setActionHandler('seekforward', function() { speed(pbr+0.1) });
-        navigator.mediaSession.setActionHandler('seekto', function() { /* Code excerpted. */ });
-        navigator.mediaSession.setActionHandler('previoustrack', function() { previous() });
-        navigator.mediaSession.setActionHandler('nexttrack', function() { next() });
+        navigator.mediaSession.setActionHandler('play', function () {
+            pause()
+        });
+        navigator.mediaSession.setActionHandler('pause', function () {
+            pause()
+        });
+        navigator.mediaSession.setActionHandler('stop', function () { /* Code excerpted. */
+        });
+        navigator.mediaSession.setActionHandler('seekbackward', function () {
+            speed(pbr - 0.1)
+        });
+        navigator.mediaSession.setActionHandler('seekforward', function () {
+            speed(pbr + 0.1)
+        });
+        navigator.mediaSession.setActionHandler('seekto', function () { /* Code excerpted. */
+        });
+        navigator.mediaSession.setActionHandler('previoustrack', function () {
+            previous()
+        });
+        navigator.mediaSession.setActionHandler('nexttrack', function () {
+            next()
+        });
     }
 }

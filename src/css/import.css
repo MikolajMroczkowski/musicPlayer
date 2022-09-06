@@ -1,0 +1,32 @@
+body {
+    text-align: center;
+    width: 100%;
+    height: max-content;
+    margin: 10px;
+    overflow: hidden;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #479fcb 0%, #319353 100%);
+    font-family: "Helvetica Neue", "Futura", "Trebuchet MS", Arial;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+html {
+    height: max-content;
+}
+label{
+    display: block;
+}
+table,td,tr{
+    border: 1px solid black;
+    text-align: center;
+    margin:0;
+    padding: 0;
+}
+table{
+    width: 99%;
+}
+div{
+    text-align: center;
+}
