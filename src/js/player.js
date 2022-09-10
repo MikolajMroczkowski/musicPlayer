@@ -224,7 +224,7 @@ function speed(val) {
     a.playbackRate = val
     document.getElementById("speed").value = a.playbackRate * 100
     pbr = a.playbackRate
-    document.getElementById("speedVal").innerHTML = a.playbackRate
+    document.getElementById("speedVal").innerHTML = parseInt(a.playbackRate*100)/100
 }
 
 document.getElementById("volume").onchange = function (ev) {
@@ -285,7 +285,7 @@ function barRefresh(title, author) {
         navigator.mediaSession.setActionHandler('pause', function () {
             pause()
         });
-        navigator.mediaSession.setActionHandler('stop', function () {
+        navigator.mediaSession.setActionHandler('stop', function () { /* Code excerpted. */
         });
         navigator.mediaSession.setActionHandler('seekbackward', function () {
             speed(pbr - 0.1)
@@ -293,7 +293,7 @@ function barRefresh(title, author) {
         navigator.mediaSession.setActionHandler('seekforward', function () {
             speed(pbr + 0.1)
         });
-        navigator.mediaSession.setActionHandler('seekto', function () {
+        navigator.mediaSession.setActionHandler('seekto', function () { /* Code excerpted. */
         });
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             previous()
@@ -303,3 +303,11 @@ function barRefresh(title, author) {
         });
     }
 }
+document.addEventListener('keypress',function (ev) {
+    if(ev.key==='+'){
+        speed(pbr + 0.01)
+    }
+    if(ev.key==='-'){
+        speed(pbr - 0.01)
+    }
+})
