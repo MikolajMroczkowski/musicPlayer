@@ -1,6 +1,6 @@
 {
   "name": "bestmusicplayer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Music player with extra options",
   "main": "src/main.js",
   "scripts": {
@@ -32,7 +32,9 @@
       "makers": [
         {
           "name": "@electron-forge/maker-deb",
-          "config": {}
+          "config": {
+            "icon": "./src/icons/icon.png"
+          }
         },
         {
           "name": "@electron-forge/maker-squirrel",
@@ -41,7 +43,7 @@
           ],
           "config": {
             "authors": "miki",
-            "iconUrl": "https://www.electronjs.org//images/favicon.b7a59262df48d6563400baf5671da548.ico",
+            "iconUrl": "./src/icons/icon.ico",
             "exe": "bestmusicplayer.exe",
             "name": "bestmusicplayer"
           }

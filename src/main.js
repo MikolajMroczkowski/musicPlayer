@@ -9,7 +9,7 @@ const createWindow = (file, hide) => {
             enableRemoteModule: true, nodeIntegration: true, contextIsolation: false
         }
     })
-    if(file.includes("import")){
+    if (file.includes("import")) {
         ipcMain.handle('importDialog', async (event, arg) => {
             return await dialog.showOpenDialog(mainWindow, {
                 properties: ['openFile'], filters: [{name: 'Dane e-buda music', extensions: ['emd']},
@@ -18,7 +18,7 @@ const createWindow = (file, hide) => {
             })
         })
     }
-    if(file.includes("export")){
+    if (file.includes("export")) {
         ipcMain.handle('saveDialog', async (event, arg) => {
             return dialog.showSaveDialog(mainWindow, options = {
                 title: "Eksport Danych",
