@@ -35,7 +35,7 @@ ipcRenderer.invoke('importDialog').then((result) => {
         }
         list.appendChild(tbl)
     } else {
-        location = location
+        
     }
 })
 

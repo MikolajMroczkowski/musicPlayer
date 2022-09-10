@@ -37,3 +37,7 @@ button{
     background: rgba(255,255,255,0.7);
     margin:10px;
 }
+.selectList{
+    margin:20px;
+    text-align: center;
+}

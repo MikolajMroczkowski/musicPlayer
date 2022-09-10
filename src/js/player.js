@@ -48,7 +48,6 @@ function reload() {
             var el = document.getElementById("el" + playing)
             el.classList.add("np")
             el.classList.remove("el")
-            // settings.getObject().referenceNames
             if (settings.getObject().referenceNames) {
                 dbName(0)
             }
@@ -98,20 +97,15 @@ fs.readdir(listPath, function (err, fn) {
     document.getElementById("repeat").checked = settings.getObject().repeat
     document.getElementById("volumeVal").innerHTML = a.volume * 100
     document.getElementById("speedVal").innerHTML = pbr
-    if (settings.getObject().lastPlay < list.length) {
-        play(settings.getObject().lastPlay)
-        if (!autoplay) {
-            pause()
-        }
-    } else {
-        var willPlay = getRandomInt(0, list.length)
-        play(willPlay)
+    play(settings.getObject().lastPlay)
+    if (!autoplay) {
+        pause()
     }
+
 
 })
 
 function dbName(id) {
-    console.log(id)
     var element = document.getElementById("el" + id)
     console.log(element.innerHTML, id < list.length, id, list.length)
     if (id < list.length - 2) {
@@ -265,22 +259,17 @@ const secondsToMinSec = time => `${padTime(~~(time / 60))}:${padTime(time - ~~(t
 
 function diffArray(arr1, arr2) {
     const newArr = [];
-
-// arr1 match to arr2
     arr1.map((item) => {
         if (arr2.indexOf(item) < 0) {
             console.log(item)
             newArr.push(item)
         }
     })
-
-// arr2 match to arr1
     arr2.map((item) => {
         if (arr1.indexOf(item) < 0) {
             newArr.push(item)
         }
     })
-
     return newArr;
 }
 
@@ -296,7 +285,7 @@ function barRefresh(title, author) {
         navigator.mediaSession.setActionHandler('pause', function () {
             pause()
         });
-        navigator.mediaSession.setActionHandler('stop', function () { /* Code excerpted. */
+        navigator.mediaSession.setActionHandler('stop', function () {
         });
         navigator.mediaSession.setActionHandler('seekbackward', function () {
             speed(pbr - 0.1)
@@ -304,7 +293,7 @@ function barRefresh(title, author) {
         navigator.mediaSession.setActionHandler('seekforward', function () {
             speed(pbr + 0.1)
         });
-        navigator.mediaSession.setActionHandler('seekto', function () { /* Code excerpted. */
+        navigator.mediaSession.setActionHandler('seekto', function () {
         });
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             previous()

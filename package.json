@@ -4,6 +4,7 @@
   "description": "Music player with extra options",
   "main": "src/main.js",
   "scripts": {
+    "start:full": "electron-forge start",
     "start": "electron .",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -29,12 +30,6 @@
     "forge": {
       "packagerConfig": {},
       "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "bestmusicplayer"
-          }
-        },
         {
           "name": "@electron-forge/maker-deb",
           "config": {}

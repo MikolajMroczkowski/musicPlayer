@@ -9,8 +9,25 @@ const createWindow = (file, hide) => {
             enableRemoteModule: true, nodeIntegration: true, contextIsolation: false
         }
     })
-    mainWindow.loadFile(file)
-    mainWindow.webContents.openDevTools()
+    if(file.includes("import")){
+        ipcMain.handle('importDialog', async (event, arg) => {
+            return await dialog.showOpenDialog(mainWindow, {
+                properties: ['openFile'], filters: [{name: 'Dane e-buda music', extensions: ['emd']},
+
+                ], title: "Import Danych", defaultPath: path.join(app.getPath("documents")), buttonLabel: "Import"
+            })
+        })
+    }
+    if(file.includes("export")){
+        ipcMain.handle('saveDialog', async (event, arg) => {
+            return dialog.showSaveDialog(mainWindow, options = {
+                title: "Eksport Danych",
+                defaultPath: path.join(app.getPath("documents"), "data.emd"),
+                buttonLabel: "Export",
+                filters: [{name: 'Dane e-buda music', extensions: ['emd']}]
+            })
+        })
+    }
     if (!reg) {
         reg = true
         ipcMain.handle('openDialog', async (event, arg) => {
@@ -21,21 +38,6 @@ const createWindow = (file, hide) => {
                 buttonLabel: "Wybierz"
             })
         })
-        ipcMain.handle('importDialog', async (event, arg) => {
-            return await dialog.showOpenDialog(mainWindow, {
-                properties: ['openFile'], filters: [{name: 'Dane e-buda music', extensions: ['emd']},
-
-                ], title: "Import Danych", defaultPath: path.join(app.getPath("documents")), buttonLabel: "Import"
-            })
-        })
-        ipcMain.handle('saveDialog', async (event, arg) => {
-            return dialog.showSaveDialog(mainWindow, options = {
-                title: "Eksport Danych",
-                defaultPath: path.join(app.getPath("documents"), "data.emd"),
-                buttonLabel: "Export",
-                filters: [{name: 'Dane e-buda music', extensions: ['emd']}]
-            })
-        })
         ipcMain.on('userData', (event, arg) => {
             event.returnValue = app.getPath("userData")
         })
@@ -43,6 +45,8 @@ const createWindow = (file, hide) => {
             event.returnValue = app.getPath("music")
         })
     }
+    mainWindow.loadFile(file)
+    mainWindow.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {
