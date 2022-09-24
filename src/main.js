@@ -46,7 +46,7 @@ const createWindow = (file, hide) => {
         })
     }
     mainWindow.loadFile(file)
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {

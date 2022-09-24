@@ -19,7 +19,6 @@ ipcRenderer.invoke('importDialog').then((result) => {
             const author = tr.insertCell();
             const name = tr.insertCell();
             var input = document.createElement("input")
-            var label = document.createElement("label")
             input.type = "checkbox"
             input.id = data[o].name
             input.checked = true;

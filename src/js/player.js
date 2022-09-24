@@ -221,10 +221,20 @@ document.getElementById("speed").onchange = function (ev) {
 }
 
 function speed(val) {
-    a.playbackRate = val
+    a.playbackRate = parseInt(val*100)/100
     document.getElementById("speed").value = a.playbackRate * 100
     pbr = a.playbackRate
     document.getElementById("speedVal").innerHTML = parseInt(a.playbackRate*100)/100
+    settings.setSpeed(pbr)
+}
+function volume(val) {
+    a.volume = parseInt(val*100)/100
+    document.getElementById("volume").value = a.volume * 100
+    document.getElementById("volumeVal").innerHTML = parseInt(a.volume*100)
+    settings.setVolume(a.volume*100)
+}
+function currentTime(val) {
+    a.currentTime = val
 }
 
 document.getElementById("volume").onchange = function (ev) {
@@ -291,7 +301,7 @@ function barRefresh(title, author) {
             speed(pbr - 0.1)
         });
         navigator.mediaSession.setActionHandler('seekforward', function () {
-            speed(pbr + 0.1)
+            speed(parseFloat(pbr) + 0.1)
         });
         navigator.mediaSession.setActionHandler('seekto', function () { /* Code excerpted. */
         });
@@ -303,11 +313,35 @@ function barRefresh(title, author) {
         });
     }
 }
-document.addEventListener('keypress',function (ev) {
-    if(ev.key==='+'){
-        speed(pbr + 0.01)
+document.addEventListener('keydown',function (ev) {
+    if(ev.key==='+'||ev.key==="="){
+        speed(parseFloat(pbr) + 0.01)
     }
-    if(ev.key==='-'){
+    else if(ev.key==='-'){
         speed(pbr - 0.01)
+    }
+    else if(ev.key==='ArrowUp'){
+        volume(parseFloat(a.volume)+0.01)
+    }
+    else if(ev.key==='ArrowDown'){
+        volume(a.volume-0.01)
+    }
+    else if(ev.key==='ArrowLeft'){
+        currentTime(a.currentTime-1)
+    }
+    else if(ev.key==='ArrowRight'){
+        currentTime(a.currentTime+1)
+    }
+    else if(ev.key===' '){
+        pause()
+    }
+    else if(ev.key==='n'){
+        next()
+    }
+    else if(ev.key==='b'){
+        previous()
+    }
+    else if(ev.key==='l'){
+        toggleLyrics()
     }
 })
